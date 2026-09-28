@@ -1,0 +1,326 @@
+/*
+ * Each messenger gets its own look, modelled on its web client:
+ *   MAX      → web.max.ru
+ *   Telegram → web.telegram.org
+ *   WhatsApp → web.whatsapp.com
+ * Components only read CSS variables; the theme is picked by [data-messenger].
+ */
+
+/* Doodle wallpaper, drawn as a mask so each theme can tint it */
+.chat,
+.empty {
+  position: relative;
+  isolation: isolate;
+}
+
+.chat::before,
+.empty::before,
+[data-messenger='max'].login::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--pattern-color, transparent);
+  opacity: var(--pattern-opacity, 0);
+  -webkit-mask: var(--pattern) repeat 0 0 / var(--pattern-size, 280px);
+  mask: var(--pattern) repeat 0 0 / var(--pattern-size, 280px);
+  pointer-events: none;
+}
+
+.login {
+  isolation: isolate;
+}
+
+[data-messenger] {
+  --pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M30 42c-6-9-19-3-12 8l12 10 12-10c7-11-6-17-12-8Z'/%3E%3Cpath d='m120 18 6 14 15 1-12 10 4 15-13-8-13 8 4-15-12-10 15-1Z'/%3E%3Ccircle cx='204' cy='40' r='12'/%3E%3Cpath d='M40 112h40a8 8 0 0 1 8 8v20a8 8 0 0 1-8 8H58l-10 8v-8h-8a8 8 0 0 1-8-8v-20a8 8 0 0 1 8-8Z'/%3E%3Cpath d='m150 118 52-22-18 52-10-18Zm24 12 28-34'/%3E%3Ccircle cx='120' cy='204' r='14'/%3E%3Cpath d='M114 200h.01M126 200h.01M114 209q6 5 12 0'/%3E%3Cpath d='M18 206q10-10 20 0t20 0'/%3E%3Cpath d='M204 196v-28l18-5v26'/%3E%3Ccircle cx='198' cy='196' r='6'/%3E%3Ccircle cx='216' cy='189' r='6'/%3E%3C/svg%3E");
+}
+
+/* ───────── MAX ───────── */
+[data-messenger='max'] {
+  --accent: #007aff;
+  --link: #007aff;
+  --text: #1c1c1e;
+  --text-secondary: #8a8f99;
+  --icon: #7f8591;
+  --hover: rgba(0, 0, 0, 0.05);
+  --divider: #eceef2;
+
+  --login-bg: linear-gradient(135deg, #5aaef5 0%, #74c1f0 45%, #86d9d0 100%);
+  --login-card-radius: 32px;
+  --login-card-shadow: 0 20px 60px rgba(20, 60, 120, 0.18);
+  --button-radius: 14px;
+  --field-radius: 14px;
+  --field-bg: #f3f5f8;
+  --field-border: transparent;
+
+  --sidebar-bg: #fff;
+  --sidebar-title-size: 22px;
+  --list-padding: 0 8px;
+  --item-radius: 14px;
+  --item-hover: #f3f5f8;
+  --item-active-bg: #e8f1ff;
+
+  --chat-bg: #eef2f7;
+  --pattern-color: #6f8fb8;
+  --pattern-opacity: 0.08;
+  --header-bg: #fff;
+  --header-border: #eceef2;
+  --in-bg: #fff;
+  --out-bg: #d6e8ff;
+  --meta: #9aa1ab;
+  --out-meta: #6f8fb3;
+  --bubble-radius: 18px;
+  --bubble-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+  --service-bg: rgba(255, 255, 255, 0.8);
+  --service-text: #6b7280;
+  --service-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+  --status-read: #007aff;
+
+  --composer-max-width: 900px;
+  --composer-padding: 10px 20px 18px;
+  --input-shadow: 0 2px 10px rgba(30, 60, 110, 0.08);
+  --send-bg: linear-gradient(135deg, #2e6bff, #7b4dff);
+}
+
+[data-messenger='max'].login::before {
+  background: #fff;
+  opacity: 0.22;
+}
+
+[data-messenger='max'] .bubble-row--out.bubble-row--last .bubble {
+  border-bottom-right-radius: 6px;
+}
+
+[data-messenger='max'] .bubble-row--in.bubble-row--last .bubble {
+  border-bottom-left-radius: 6px;
+}
+
+/* ───────── Telegram ───────── */
+[data-messenger='telegram'] {
+  --accent: #3390ec;
+  --text: #000;
+  --text-secondary: #707579;
+  --icon: #707579;
+  --hover: #f4f4f5;
+  --divider: #dfe1e5;
+
+  --login-bg: #fff;
+  --login-card-radius: 0;
+  --button-radius: 12px;
+  --button-transform: uppercase;
+  --button-letter-spacing: 0.3px;
+  --field-radius: 12px;
+
+  --sidebar-bg: #fff;
+  --list-padding: 0 8px;
+  --item-radius: 12px;
+  --item-hover: #f4f4f5;
+  --item-active-bg: #3390ec;
+  --item-active-text: #fff;
+  --item-active-secondary: rgba(255, 255, 255, 0.85);
+  --item-active-badge-bg: #fff;
+  --item-active-badge-text: #3390ec;
+  --badge-bg: #c4c9cc;
+  --item-title-weight: 500;
+
+  --chat-bg: linear-gradient(135deg, #dbddbb 0%, #6ba587 35%, #d5d88d 70%, #88b884 100%);
+  --pattern-color: #1d3b1d;
+  --pattern-opacity: 0.14;
+  --pattern-size: 240px;
+  --header-bg: #fff;
+  --in-bg: #fff;
+  --out-bg: #eeffde;
+  --meta: #a1aab3;
+  --out-meta: #4fae4e;
+  --status-read: #4fae4e;
+  --bubble-radius: 15px;
+  --bubble-shadow: 0 1px 2px rgba(16, 35, 47, 0.15);
+  --service-bg: rgba(0, 0, 0, 0.22);
+  --service-text: #fff;
+  --empty-icon-bg: rgba(0, 0, 0, 0.18);
+  --empty-text: #fff;
+  --empty-text-secondary: rgba(255, 255, 255, 0.85);
+
+  --messages-max-width: 728px;
+  --composer-max-width: 760px;
+  --composer-padding: 8px 16px 20px;
+  --input-radius: 16px;
+  --input-shadow: 0 1px 2px rgba(16, 35, 47, 0.15);
+  --send-bg: #3390ec;
+  --send-shadow: 0 1px 2px rgba(16, 35, 47, 0.15);
+  --send-disabled-opacity: 1;
+}
+
+[data-messenger='telegram'] .empty__icon {
+  color: #fff;
+}
+
+[data-messenger='telegram'] .composer__send:disabled {
+  background: #fff;
+  color: #707579;
+}
+
+[data-messenger='telegram'] .login__title {
+  font-size: 32px;
+}
+
+/* Tails on the last bubble of a group, bottom corner */
+[data-messenger='telegram'] .bubble-row--out.bubble-row--last .bubble {
+  border-bottom-right-radius: 0;
+}
+
+[data-messenger='telegram'] .bubble-row--in.bubble-row--last .bubble {
+  border-bottom-left-radius: 0;
+}
+
+[data-messenger='telegram'] .bubble-row--last .bubble::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  width: 9px;
+  height: 17px;
+  background: inherit;
+}
+
+[data-messenger='telegram'] .bubble-row--out.bubble-row--last .bubble::after {
+  right: -8px;
+  clip-path: path('M0 0v17h9c-5-2-9-7-9-17Z');
+}
+
+[data-messenger='telegram'] .bubble-row--in.bubble-row--last .bubble::after {
+  left: -8px;
+  clip-path: path('M9 0v17H0c5-2 9-7 9-17Z');
+}
+
+/* ───────── WhatsApp ───────── */
+[data-messenger='whatsapp'] {
+  --accent: #00a884;
+  --link: #027eb5;
+  --text: #111b21;
+  --text-secondary: #667781;
+  --icon: #54656f;
+  --hover: rgba(11, 20, 26, 0.06);
+  --divider: #e9edef;
+
+  --login-bg: #eae6df;
+  --login-card-radius: 8px;
+  --login-card-shadow: 0 17px 50px rgba(11, 20, 26, 0.19);
+  --button-radius: 24px;
+  --field-radius: 8px;
+
+  --sidebar-bg: #fff;
+  --sidebar-header-bg: #fff;
+  --sidebar-title-color: #111b21;
+  --sidebar-title-size: 22px;
+  --item-hover: #f5f6f6;
+  --item-active-bg: #f0f2f5;
+  --item-divider: 1px solid #e9edef;
+  --item-title-weight: 400;
+  --badge-bg: #25d366;
+  --avatar-bg: #dfe5e7;
+  --avatar-fg: #fff;
+
+  --chat-bg: #efeae2;
+  --pattern-color: #b8ab98;
+  --pattern-opacity: 0.3;
+  --pattern-size: 190px;
+  --header-bg: #f0f2f5;
+  --header-border: #d1d7db;
+  --in-bg: #fff;
+  --out-bg: #d9fdd3;
+  --meta: #667781;
+  --status-read: #53bdeb;
+  --bubble-radius: 7.5px;
+  --bubble-shadow: 0 1px 0.5px rgba(11, 20, 26, 0.13);
+  --service-bg: #fff;
+  --service-text: #54656f;
+  --service-radius: 7.5px;
+  --service-shadow: 0 1px 0.5px rgba(11, 20, 26, 0.13);
+  --messages-padding-x: 7%;
+
+  --composer-bg: #f0f2f5;
+  --composer-padding: 8px 16px;
+  --input-radius: 8px;
+  --send-bg: transparent;
+  --send-color: #54656f;
+  --send-disabled-opacity: 0.45;
+}
+
+[data-messenger='whatsapp'] .login__hero {
+  display: block;
+  position: absolute;
+  inset: 0 0 auto;
+  height: 222px;
+  background: #00a884;
+}
+
+[data-messenger='whatsapp'].login {
+  align-items: flex-start;
+  padding-top: 110px;
+}
+
+[data-messenger='whatsapp'] .chat-item {
+  padding-right: 0;
+}
+
+[data-messenger='whatsapp'] .chat-item__body {
+  padding-right: 14px;
+}
+
+[data-messenger='whatsapp'] .chat-item__badge {
+  color: #fff;
+}
+
+[data-messenger='whatsapp'] .composer {
+  align-items: center;
+}
+
+[data-messenger='whatsapp'] .composer__send:not(:disabled):hover {
+  background: rgba(11, 20, 26, 0.06);
+}
+
+[data-messenger='whatsapp'] .bubble-row--first .bubble {
+  margin-top: 4px;
+}
+
+/* Tails on the first bubble of a group, top corner */
+[data-messenger='whatsapp'] .bubble-row--out.bubble-row--first .bubble {
+  border-top-right-radius: 0;
+}
+
+[data-messenger='whatsapp'] .bubble-row--in.bubble-row--first .bubble {
+  border-top-left-radius: 0;
+}
+
+[data-messenger='whatsapp'] .bubble-row--first .bubble::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 8px;
+  height: 13px;
+  background: inherit;
+}
+
+[data-messenger='whatsapp'] .bubble-row--out.bubble-row--first .bubble::after {
+  right: -8px;
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+}
+
+[data-messenger='whatsapp'] .bubble-row--in.bubble-row--first .bubble::after {
+  left: -8px;
+  clip-path: polygon(0 0, 100% 0, 100% 100%);
+}
+
+@media (max-width: 760px) {
+  [data-messenger='whatsapp'] {
+    --messages-padding-x: 10px;
+  }
+
+  [data-messenger='whatsapp'].login {
+    padding-top: 60px;
+  }
+
+  [data-messenger='whatsapp'] .login__hero {
+    height: 160px;
+  }
+}
